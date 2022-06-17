@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Login from './pages/Login';
-import CreateAccount from './pages/CreateAccount';
+import Signup from './pages/Signup';
 import Home from './pages/Home';
+import { Routes } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Routes>
+      
+    </Routes>
     <Home />
   </React.StrictMode>
 );
