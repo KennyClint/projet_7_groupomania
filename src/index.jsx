@@ -1,17 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import GlobalStyle from './utils/style/GlobalStyle';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
+      <GlobalStyle />
       <Routes>
           <Route index element={<Login />} />
-          <Route path="login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="signup" element={<Signup />} />
         </Routes>
         <Routes>
