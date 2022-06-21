@@ -37,7 +37,7 @@ function Login ()
             <Headerlogin />
                 <StyledBody>
                 <h1>Connexion</h1>
-                <StyledForm action="http://localhost:4200/" method="get">
+                <StyledForm>
                     <PositionForm>
                         <label for="email">Email</label>
                         <input type="email" id="email" required />
