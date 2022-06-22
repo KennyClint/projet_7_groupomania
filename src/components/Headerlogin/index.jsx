@@ -5,7 +5,8 @@ import logo from "../../assets/icon-left-font.png";
 const HeaderLogo = styled.img`
 width : 430px;
 height : 70px;
-object-fit : cover
+object-fit : cover;
+object-position : -55px;
 `;
 
 const NavContainer = styled.nav`
@@ -15,12 +16,14 @@ align-items : center;
 border-bottom : 1px solid black;
 padding-top : 20px;
 padding-bottom : 20px;
+padding-left : 2em;
+padding-right : 2em;
 & div 
 {
-    margin-right : 4em;
     & a
     {
-        margin-left : 2em; 
+        font-size : 1.1em;
+        margin-left : 2em;
     }
 }
 `;
