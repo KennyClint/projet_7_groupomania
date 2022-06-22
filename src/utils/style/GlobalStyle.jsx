@@ -16,8 +16,13 @@ h1 {
     color : ${colors.tertiary};
 }
 
+h2 {
+    font-weight : normal;
+}
+
 a {
     text-decoration : none;
+    color : black;
     &:visited {
         color : black;
     }
