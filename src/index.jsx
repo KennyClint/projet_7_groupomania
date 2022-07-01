@@ -12,12 +12,12 @@ root.render(
     <Router>
       <GlobalStyle />
       <Routes>
-          <Route index element={<Login />} />
-          <Route path="/" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-        </Routes>
-        <Routes>
-          <Route path="home" element={<Home />} />
+        <Route index element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+      </Routes>
+      <Routes>
+        <Route path="home" element={<Home />} />
       </Routes>
     </Router>
   </React.StrictMode>
