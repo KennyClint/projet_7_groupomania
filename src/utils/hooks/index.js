@@ -1,62 +1,43 @@
 import { useState, useEffect } from 'react'
 
+/*Fonction : Récupérer et formater les données stringifiées provenant du localStorage*/
+function getUserIdToken()
+{
+  const userIdTokenStringify = localStorage.getItem("userIdToken");
+  const userIdToken = JSON.parse(userIdTokenStringify);
+ 
+  return userIdToken;
+};
+
 export function useFetchGet(url)
 {
-    const [dataPostsList, setData] = useState({});
+    const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        if (!url) return
-        setLoading(true)
+        const userIdToken = getUserIdToken();
+        const token = userIdToken.token;
         async function fetchData() {
-          try {
-            const response = await fetch(url)
-            const data = await response.json()
-            setData(data)
-          } catch (err) {
-            console.log(err)
-            setError(true)
-          } finally {
-            setLoading(false)
-          }
-        }
-        fetchData()
-      }, [url])
-      return { isLoading, dataPostsList, error }
-};
-
-export function useFetchPost(url, jsonObject)
-{
-    const [data, setData] = useState({});
-    //const [isLoading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    fetch(url, 
-        {
-            method : "POST",
-            headers : {
-                "Accept" : "application/json",
-                "Content-Type" : "application/json"
-            },
-            body : JSON.stringify(jsonObject)
-        })
-        .then(function(res)
-        {
-            if(res.ok) 
-            {
-                return res.json();
+            try {
+                const response = await fetch(url,
+                {
+                    headers : {
+                    "Authorization" : `Bearer ${token}`
+                }
+                })
+                const data = await response.json()
+                setData(data)
+            } catch (err) {
+                setError(true)
+            } finally {
+                setLoading(false)
             }
-        })
-        .then(function(data)
-        {
-            setData(data)
-        })
-        .catch(function(err)
-        {
-            setError(err)    
-        });
-    return { data, error };
+          };
+          fetchData(url, token);
+    }, [url])
+
+    return { isLoading, data, error };
 };
 
 export function useFetchPut(url, jsonObject)
