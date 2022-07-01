@@ -3,8 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
-const path = require("path");
 require("dotenv").config();
+const path = require("path");
 
 mongoose.connect(process.env.BDD_URL,
   { useNewUrlParser: true,

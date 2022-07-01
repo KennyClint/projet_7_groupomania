@@ -3,17 +3,17 @@ const fs = require("fs");
 
 exports.createPost = function(req, res, next)
 {
-    const postObject = JSON.parse(req.body.post);
+    const postObject = req.file ?
+	{
+		...JSON.parse(req.body.post),	
+		imageUrl : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`	
+	} : {...req.body};
 	delete postObject._id;
-    const post = new Post({
-        text : req.body.text,
-        userId : req.body.userId,
-        email : req.body.email,
-        date : req.body.date,
-        likes : 0,
-        imageUrl : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-    })
-    post.save()
+	const post = new Post({
+		...postObject,
+		likes : 0
+	});	
+	post.save()
     .then(function()
     {
         res.status(201).json({message : "Post saved"});
@@ -27,8 +27,8 @@ exports.createPost = function(req, res, next)
 exports.getAllPost = function(req, res, next)
 {
     Post.find()
-    .then(function(posts){
-        res.status(200).json(posts);
+    .then(function(postsList){
+        res.status(200).json(postsList);
     })
     .catch(function(error){
         res.status(400).json({error : error});
@@ -42,26 +42,33 @@ exports.modifyPost = function(req, res, next)
 		...JSON.parse(req.body.post),	
 		imageUrl : `${req.protocol}://${req.get("host")}/images/${req.file.filename}`	
 	} : {...req.body};
-	if(req.file)
+	Post.findOne({_id : req.params.id})
+	.then(function(post)
 	{
-		Post.findOne({_id : req.params.id})
-		.then(function(post){
+		if(req.file && (post.imageUrl && post.imageUrl !== ""))
+		{
 			const filename = post.imageUrl.split("/images/")[1];
 			fs.unlink(`images/${filename}`, function(error){
+				if(error){console.log(`ligne 50 : ${error}`)}
+					else {console.log("Old file delete")};
+			})
+		} else {
+			if(postObject.imageUrl === "" && (post.imageUrl && post.imageUrl !== ""))
+			{
+				const filename = post.imageUrl.split("/images/")[1];
+				fs.unlink(`images/${filename}`, function(error){
 				if(error){console.log(error)}
 					else {console.log("Old file delete")};
-			});
+				})
+			}
+		}
+		Post.updateOne({_id : req.params.id}, {...postObject, _id : req.params.id})
+		.then(function(){
+			res.status(200).json({message : "Post updated successfully"});
 		})
 		.catch(function(error){
-			res.status(500).json({error});
+			res.status(400).json({error});
 		});
-	};
-	Post.updateOne({_id : req.params.id}, {...postObject, _id : req.params.id})
-	.then(function(){
-		res.status(200).json({message : "Post updated successfully"});
-	})
-	.catch(function(error){
-		res.status(400).json({error});
 	});
 };
 
@@ -81,8 +88,8 @@ exports.deletePost = function(req, res, next)
 			{
 				Post.findOne({_id : req.params.id})
 				.then(function(post){
-					const filename = post.imageUrl.split("/images/")[1];
-					fs.unlink(`images/${filename}`,function(){
+					if(!post.imageUrl || post.imageUrl === "")
+					{
 						Post.deleteOne({_id : req.params.id})
 						.then(function(){
 							res.status(200).json({message : "Deleted"});
@@ -90,7 +97,18 @@ exports.deletePost = function(req, res, next)
 						.catch(function(error){
 							res.status(400).json({error : error});
 						});
-					});
+					} else {
+						const filename = post.imageUrl.split("/images/")[1];
+						fs.unlink(`images/${filename}`,function(){
+							Post.deleteOne({_id : req.params.id})
+							.then(function(){
+								res.status(200).json({message : "Deleted"});
+							})
+							.catch(function(error){
+								res.status(400).json({error : error});
+							});
+						});
+					};
 				})
 				.catch(function(error){
 					res.status(500).json({error});
