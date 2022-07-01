@@ -30,7 +30,7 @@ function Headerhome ()
     return (
         <NavContainer>
             <Link to="/home"><HeaderLogo src={logo} alt="Logo de groupomania" /></Link>
-            <StyledLink to="/signup">Déconnexion</StyledLink>
+            <StyledLink to="/">Déconnexion</StyledLink>
         </NavContainer>
     )
 };
