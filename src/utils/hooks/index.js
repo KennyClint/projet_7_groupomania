@@ -18,17 +18,19 @@ export function useFetchGet(url)
     useEffect(() => {
         const userIdToken = getUserIdToken();
         const token = userIdToken.token;
-        async function fetchData() {
+        const localUserId = userIdToken.userId
+        async function fetchData(url, token) {
             try {
                 const response = await fetch(url,
                 {
                     headers : {
-                    "Authorization" : `Bearer ${token}`
-                }
+                        "Authorization" : `Bearer ${token} ${localUserId}`
+                    }
                 })
                 const data = await response.json()
                 setData(data)
             } catch (err) {
+                console.log(err)
                 setError(true)
             } finally {
                 setLoading(false)
@@ -38,65 +40,4 @@ export function useFetchGet(url)
     }, [url])
 
     return { isLoading, data, error };
-};
-
-export function useFetchPut(url, jsonObject)
-{
-    const [data, setData] = useState({});
-    //const [isLoading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    fetch(url, 
-        {
-            method : "PUT",
-            headers : {
-                "Accept" : "application/json",
-                "Content-Type" : "application/json"
-            },
-            body : JSON.stringify(jsonObject)
-        })
-        .then(function(res)
-        {
-            if(res.ok) 
-            {
-                return res.json();
-            }
-        })
-        .then(function(data)
-        {
-            setData(data)
-        })
-        .catch(function(err)
-        {
-            setError(err)    
-        });
-    return { data, error };
-};
-
-export function useFetchDelete(url)
-{
-    const [data, setData] = useState({});
-    //const [isLoading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    fetch(url,
-        {
-            method : "DELETE"
-        })
-        .then(function(res)
-        {
-            if(res.ok)
-            {
-                return res.json();
-            }
-        })
-        .then(function(data)
-        {
-            setData(data)
-        })
-        .catch(function(err)
-        {
-            setError(err)
-        });
-        return { data, error };
 };

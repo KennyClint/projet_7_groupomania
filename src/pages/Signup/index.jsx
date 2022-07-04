@@ -70,8 +70,6 @@ function sendData (e, emailValue, passwordValue, setError, setLoading, setRespon
         .catch(function(err)
         {
             console.log(err);
-            console.log(err.message);
-            console.log(err.error)
             setResponse(err)
             setLoading(false);
             setError(true);    

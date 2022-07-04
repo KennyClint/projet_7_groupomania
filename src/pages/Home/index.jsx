@@ -30,10 +30,8 @@ flex-direction : column;
 function Home() 
 {
   const { isLoading, data, error } = useFetchGet("http://localhost:4200/api/posts");
-
   const descendingPostsList = data;
   descendingPostsList?.sort((a, b) => b.dateTime - a.dateTime);
-  console.log(descendingPostsList);
 
   if(error) 
   {

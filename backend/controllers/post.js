@@ -81,25 +81,17 @@ exports.deletePost = function(req, res, next)
 			res.status(404).json({error : new Error("No such post")});
 		} else 
 		{
-			if(post.userId !== req.auth.userId)
+			if(req.auth.userIdInToken !== "iAmAdmin")
 			{
-				res.status(400).json({error : new Error("Unauthorized request")});
-			} else
-			{
-				Post.findOne({_id : req.params.id})
-				.then(function(post){
-					if(!post.imageUrl || post.imageUrl === "")
-					{
-						Post.deleteOne({_id : req.params.id})
-						.then(function(){
-							res.status(200).json({message : "Deleted"});
-						})
-						.catch(function(error){
-							res.status(400).json({error : error});
-						});
-					} else {
-						const filename = post.imageUrl.split("/images/")[1];
-						fs.unlink(`images/${filename}`,function(){
+				if(post.userId !== req.auth.userIdInToken)
+				{
+					res.status(400).json({error : new Error("Unauthorized request")});
+				} else
+				{
+					Post.findOne({_id : req.params.id})
+					.then(function(post){
+						if(!post.imageUrl || post.imageUrl === "")
+						{
 							Post.deleteOne({_id : req.params.id})
 							.then(function(){
 								res.status(200).json({message : "Deleted"});
@@ -107,13 +99,52 @@ exports.deletePost = function(req, res, next)
 							.catch(function(error){
 								res.status(400).json({error : error});
 							});
-						});
-					};
-				})
-				.catch(function(error){
-					res.status(500).json({error});
-				});
-			}
+						} else {
+							const filename = post.imageUrl.split("/images/")[1];
+							fs.unlink(`images/${filename}`,function(){
+								Post.deleteOne({_id : req.params.id})
+								.then(function(){
+									res.status(200).json({message : "Deleted"});
+								})
+								.catch(function(error){
+									res.status(400).json({error : error});
+								});
+							});
+						};
+					})
+					.catch(function(error){
+						res.status(500).json({error});
+					});
+				}
+			} else {
+				Post.findOne({_id : req.params.id})
+					.then(function(post){
+						if(!post.imageUrl || post.imageUrl === "")
+						{
+							Post.deleteOne({_id : req.params.id})
+							.then(function(){
+								res.status(200).json({message : "Deleted"});
+							})
+							.catch(function(error){
+								res.status(400).json({error : error});
+							});
+						} else {
+							const filename = post.imageUrl.split("/images/")[1];
+							fs.unlink(`images/${filename}`,function(){
+								Post.deleteOne({_id : req.params.id})
+								.then(function(){
+									res.status(200).json({message : "Deleted"});
+								})
+								.catch(function(error){
+									res.status(400).json({error : error});
+								});
+							});
+						};
+					})
+					.catch(function(error){
+						res.status(500).json({error});
+					});
+			};
 		}
 	})
 };

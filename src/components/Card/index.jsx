@@ -242,7 +242,7 @@ function postLikes(e, id, userLikedPost)
     headers : {
       "Accept" : "application/json",
       "Content-Type" : "application/json",
-      "Authorization" : `Bearer ${token}`
+      "Authorization" : `Bearer ${token} ${localUserId}`
     },
     body : JSON.stringify(dataLikedPost)
   })
@@ -271,12 +271,13 @@ function deletePost(e, id)
     {
         const userId = getUserIdToken().userId;
         const token = getUserIdToken().token;
+        const localUserId = getUserIdToken().userId;
         
         fetch(`${process.env.REACT_APP_API_URL}/api/posts/${id}`,
         {
         method : "DELETE",
         headers : {
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${token} ${localUserId}`
         },
         body : userId
         })
@@ -362,20 +363,21 @@ function fetchDeleteImage (e, id, textContent, setError)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
+  const localUserId = userIdToken.userId;
 
   const dataPostNoImageUrl =
     {
       text : textContent,
       imageUrl : ""
     };
-
+    
     fetch(`${process.env.REACT_APP_API_URL}/api/posts/${id}`,
     {
       method : "PUT",
       headers : {
           "Accept" : "application/json",
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${token} ${localUserId}`
       },
       body : JSON.stringify(dataPostNoImageUrl)
     })
@@ -397,6 +399,7 @@ function fetchWithImage(e, id, textContent, imageContent, setError)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
+  const localUserId = userIdToken.userId;
 
   const dataPost = 
   {
@@ -411,7 +414,7 @@ function fetchWithImage(e, id, textContent, imageContent, setError)
     {
       method : "PUT",
       headers : {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${token} ${localUserId}`
       },
       body : formDataPost
     })
@@ -434,6 +437,7 @@ function fetchWithoutImage (e, id, textContent, setError)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
+  const localUserId = userIdToken.userId;
 
   const dataPostNoImageUrl =
     {
@@ -446,7 +450,7 @@ function fetchWithoutImage (e, id, textContent, setError)
       headers : {
           "Accept" : "application/json",
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${token} ${localUserId}`
       },
       body : JSON.stringify(dataPostNoImageUrl)
     })
@@ -538,7 +542,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
                 </IconContainer>
                 <span>{likes}</span>
               </LikesContainer>
-              {userId === localUserId && (
+              {(userId === localUserId || localUserIdToken.admin) && (
                 <ButtonWrapper>
                   <ModifyButton type="button" value="Modifier" onClick={(e) => displayModifyForm(e, id)} />
                   <DeleteButton type="button" value="Supprimer" onClick={(e) => deletePost(e, id)}/>

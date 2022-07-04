@@ -9,7 +9,8 @@ exports.signup = function(req, res, next)
 	.then(function (hash) {
 		const user = new User( {
 			email : req.body.email,
-			password : hash
+			password : hash,
+			admin : false
 		});
 		user.save()
 		.then(function() {
@@ -49,17 +50,35 @@ exports.login = function(req, res, next)
 					return res.status(401).json({error : "Mot de passe incorrect"});
 				} else
 				{
-					res.status(200).json({
-						userIdToken : { 
-							userId : user._id,
-							token : jwt.sign(
-								{userId : user._id},
-								"RANDOM_TOKEN_SECRET",
-								{expiresIn : "24h"}
-							)
-						},
-						email : user.email
-					});
+					if(user.admin)
+					{
+						console.log("controllers, ligne 55")
+						res.status(200).json({
+							userIdToken : { 
+								userId : user._id,
+								token : jwt.sign(
+									{userId : "iAmAdmin"},
+									"RANDOM_TOKEN_SECRET",
+									{expiresIn : "24h"}
+								),
+								admin : user.admin
+							},
+							email : user.email
+						});
+					} else {
+						console.log("controllers, ligne 69")
+						res.status(200).json({
+							userIdToken : { 
+								userId : user._id,
+								token : jwt.sign(
+									{userId : user._id},
+									"RANDOM_TOKEN_SECRET",
+									{expiresIn : "24h"}
+								)
+							},
+							email : user.email
+						});
+					};
 				};
 			})
 			.catch(function(error) {

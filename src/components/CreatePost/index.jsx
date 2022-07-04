@@ -82,6 +82,7 @@ function fetchWithImage (dateTimeValue, userIdValue, emailValue, textContent, im
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
+  const localUserId = userIdToken.userId;
   
   const dataPost = 
   {
@@ -99,7 +100,7 @@ function fetchWithImage (dateTimeValue, userIdValue, emailValue, textContent, im
     {
       method : "POST",
       headers : {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${token} ${localUserId}`
       },
       body : formDataPost
     })
@@ -122,6 +123,7 @@ function fetchWithoutImage (dateTimeValue, userIdValue, emailValue, textContent,
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
+  const localUserId = userIdToken.userId;
 
   const dataPostNoImageUrl =
     {
@@ -137,7 +139,7 @@ function fetchWithoutImage (dateTimeValue, userIdValue, emailValue, textContent,
       headers : {
           "Accept" : "application/json",
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${token} ${localUserId}`
       },
       body : JSON.stringify(dataPostNoImageUrl)
     })
