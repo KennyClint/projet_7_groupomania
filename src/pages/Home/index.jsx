@@ -44,6 +44,7 @@ function Home()
     <div id="pageHome">
       <Headerhome />
       <StyledBody>
+        <h1>File d'actualité de Groupomania</h1>
         <CreatePost />
         <StyledRecentPosts id="recentPostsHome">
           {isLoading ?
