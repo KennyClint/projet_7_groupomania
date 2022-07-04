@@ -1,0 +1,26 @@
+#pageHome
+    {
+        width : 50em;
+        margin: auto;
+    }  
+
+@media all and (max-device-width : 1023px) and (min-device-width : 768px)
+{
+    #pageHome
+    {
+        width : 35em;
+    }  
+
+    #recentPostsHome
+    {
+        width : 35em;
+    }
+}
+
+@media all and (max-device-width : 767px)
+{
+    #pageHome
+    {
+        width : 22em;
+    }  
+}

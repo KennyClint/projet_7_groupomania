@@ -1,0 +1,7 @@
+@media all and (max-device-width : 767px)
+{
+    #navContainerHome
+    {
+        flex-direction : column;
+    }  
+};

@@ -1,0 +1,47 @@
+.bodyCard
+    {
+        width : 40em;
+        margin: auto;
+    }  
+
+@media all and (max-device-width : 1023px) and (min-device-width : 768px)
+{
+    .bodyCard
+    {
+        width : 32em;
+    } 
+
+    .headerFormCard
+    {
+        flex-direction: column;
+    }
+
+    .imageOptionWrapperCard input[value="Annuler fichier"]
+    {
+        margin-right : 0.4em;
+    }
+}
+
+@media all and (max-device-width : 767px)
+{
+    .bodyCard
+    {
+        width : 21em;
+    }
+
+    .headerFormCard
+    {
+        flex-direction: column;
+    }
+
+    .imageOptionWrapperCard
+    {
+        flex-direction: column;
+    }
+
+    .imageOptionWrapperCard input[value="Annuler fichier"]
+        {
+            margin-top : 0.4em;
+            margin-left : 0.4em;
+        }
+}

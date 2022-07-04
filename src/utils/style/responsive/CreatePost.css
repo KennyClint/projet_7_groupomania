@@ -1,0 +1,32 @@
+#formCreatePost
+    {
+        width : 40em;
+        margin: auto;
+    }  
+
+@media all and (max-device-width : 1023px) and (min-device-width : 768px)
+{
+    #formCreatePost
+    {
+        width : 32em;
+    }  
+}
+
+@media all and (max-device-width : 767px)
+{
+    #formCreatePost
+    {
+        width : 21em;
+    } 
+
+    #imageOptionWrapperCreatePost
+    {
+        flex-direction : column;
+    }
+
+    #imageOptionWrapperCreatePostInput
+    {
+        margin-top : 0.4em;
+        margin-left: 0.4em;
+    }
+}
