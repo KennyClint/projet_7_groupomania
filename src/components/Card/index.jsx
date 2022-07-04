@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../../utils/style/responsive/Card.css";
 
 const CardWrapper = styled.div`
 border : 1px solid grey;
@@ -24,7 +25,7 @@ const Date = styled.span`
 `;
 
 const ImageWrapper = styled.div`
-display : display;
+display : flex;
 justify-content : center;
 margin : 0.4em 0.4em 0 0.4em;
 `;
@@ -53,6 +54,7 @@ display : flex;
 
 const IconContainer = styled.div`
 cursor : pointer;
+margin-right : 0.4em;
 `;
 
 const ButtonWrapper = styled.div`
@@ -70,7 +72,6 @@ margin-left : 0.4em;
 const StyledForm = styled.div`
 display : none;
 flex-direction : column;
-width : 40em;
 margin-bottom : 1em;
 border : 1px solid grey;
 padding : 0.4em 0 0.4em 0;
@@ -99,10 +100,23 @@ justify-content : space-between;
 const ImageOptionWrapper = styled.div`
 display : flex;
 justify-content : space-between;
+& input[value="Annuler fichier"]
+{
+  width : 8em;
+}
 `;
 
 const CheckboxWrapper = styled.div`
 display : flex;
+& label
+{
+  margin-right : 0.4em;
+}
+`;
+
+const StyledImgWrapper = styled.div`
+display : flex;
+justify-content : center;
 `;
 
 const StyledImg = styled.img`
@@ -112,7 +126,14 @@ const StyledImg = styled.img`
 `;
 
 const FooterForm = styled.div`
-
+& input[value="Annuler"]
+{
+  margin-left : 0.4em;
+}
+& input[value="Valider"]
+{
+  margin-left : 0.4em;
+}
 `;
 
 const CancelButton = styled.input`
@@ -189,7 +210,7 @@ function postLikes(e, id, userLikedPost)
 
   const localUserId = getUserIdToken().userId;
   const token = getUserIdToken().token;
-  debugger
+
   let likeValue = 1;
   if (userLikedPost)
   { 
@@ -430,22 +451,31 @@ function fetchWithoutImage (e, id, textContent, setError)
 };
 
 /*Fonction : Envoi les différentes données, générées ou récupérés pour enregistrer le post dans la BDD*/
-function sendPost (e, id, textContent, imageContent, imageUrl, setError)
+function sendPost (e, id, textContent, imageContent, text, imageUrl, setError)
 {
   e.preventDefault();
   e.stopPropagation();
-
-  const withoutImage = document.getElementById("withoutImage");
   
-  if (withoutImage.checked && imageUrl !== "")
+  const withoutImage = document.getElementById(`withoutImage${id}`);
+  if((text === "" || text === undefined) && withoutImage.checked && textContent === "")
   {
-    fetchDeleteImage(e, id, textContent, setError);
-  } else { 
-    if (imageContent !== "") 
+    alert("Erreur : post vide. Veuillez indiquer un texte ou une image.");
+  } else {
+    if((imageUrl === "" || imageUrl === undefined) && textContent === "" && imageContent === "")
     {
-      fetchWithImage(e, id, textContent, imageContent, setError);
+      alert("Erreur : post vide. Veuillez indiquer un texte ou une image.");
     } else {
-      fetchWithoutImage(e, id, textContent, setError)
+      if (withoutImage.checked && imageUrl !== "")
+      {
+        fetchDeleteImage(e, id, textContent, setError);
+      } else { 
+        if (imageContent !== "") 
+        {
+          fetchWithImage(e, id, textContent, imageContent, setError);
+        } else {
+          fetchWithoutImage(e, id, textContent, setError)
+        }
+      }
     }
   }
 };
@@ -468,15 +498,15 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
   };
 
   return (
-      <div>
+      <div className="bodyCard">
           <CardWrapper>
             <Header>
               <Email>{email}</Email>
               <Date>{postCreationDate}</Date>
             </Header>
-            {imageUrl !== "" && (
+            {(imageUrl !== "" && imageUrl !== undefined) && (
               <ImageWrapper>
-                <Image src={imageUrl} id="imgBalise" />
+                <Image src={imageUrl} />
               </ImageWrapper>
             )}
             <TextWrapper>
@@ -502,8 +532,8 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
             </Footer>
           </CardWrapper>
           <StyledForm id={id}>
-            <HeaderForm>
-              <ImageOptionWrapper>
+            <HeaderForm className="headerFormCard">
+              <ImageOptionWrapper className="imageOptionWrapperCard">
                 <input type="file" id={`inputImageModify${id}`} accept=".jpg, .jpeg, .png" onChange={(e) => previewImage(e.target.files[0], setImage, id)} />
                 <input type="button" value="Annuler fichier" onClick={(e) => cancelImage(e, setImage, id)} />
               </ImageOptionWrapper>
@@ -512,11 +542,13 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
                 <label for={`withoutImage${id}`}>Post sans image</label>
               </CheckboxWrapper>
             </HeaderForm>
-            <StyledImg src="" alt="Preview post image" id={`previewImageModify${id}`} width ="200px" />
+            <StyledImgWrapper>
+              <StyledImg src="" alt="Preview post image" id={`previewImageModify${id}`} width ="200px" />
+            </StyledImgWrapper>
             <textarea name="addpost" defaultValue={text} rows="3" placeholder="Plaît-il ?" required onChange={(e) => setText(e.target.value)}></textarea>
             <FooterForm>
               <CancelButton type ="button" value="Annuler" onClick={(e) => cancelModif(e, id, text, textContent)} />
-              <input type="submit" value="Valider" onClick={(e) => sendPost(e, id, textContent, imageContent, imageUrl, setError)} />
+              <input type="submit" value="Valider" onClick={(e) => sendPost(e, id, textContent, imageContent, text, imageUrl, setError)} />
             </FooterForm>
           </StyledForm>
       </div>

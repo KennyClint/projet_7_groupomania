@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/icon-left-font.png";
-
-const HeaderLogo = styled.img`
-width : 430px;
-height : 70px;
-object-fit : cover;
-object-position : -55px;
-`;
+import "../../utils/style/responsive/Headerlogin.css";
 
 const NavContainer = styled.nav`
 display : flex;
@@ -28,6 +22,19 @@ padding-right : 2em;
 }
 `;
 
+const LogoLink = styled(Link)`
+width : 345px;
+height : 70px;
+overflow : hidden;
+`;
+
+const HeaderLogo = styled.img`
+width : 430px;
+height : 70px;
+object-fit : cover;
+margin-left : -55px;
+`;
+
 const StyledLink = styled(Link)`
 text-transform : uppercase;
 `;
@@ -35,8 +42,8 @@ text-transform : uppercase;
 function Headerlogin ()
 {
     return (
-        <NavContainer>
-            <Link to="/"><HeaderLogo src={logo} alt="Logo de groupomania" /></Link>
+        <NavContainer className="navContainer" >
+            <LogoLink to="/"><HeaderLogo src={logo} alt="Logo de groupomania" /></LogoLink>
             <div>
             <StyledLink to="/">Connexion</StyledLink>
             <StyledLink to="/signup">S'inscrire</StyledLink>

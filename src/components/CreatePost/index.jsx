@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
+import "../../utils/style/responsive/CreatePost.css"
 
 const StyledForm = styled.div`
 display : flex;
 flex-direction : column;
-width : 40em;
 margin-bottom : 1em;
 border : 1px solid grey;
 padding : 0.4em 0 0.4em 0;
@@ -28,6 +28,16 @@ padding : 0.4em 0 0.4em 0;
 const ImageOptionWrapper = styled.div`
 display : flex;
 justify-content : space-between;
+& input[value="Annuler fichier"]
+{
+  margin-right : 0.4em;
+  width : 8em;
+}
+`;
+
+const StyledImageWrapper = styled.div`
+display : flex;
+justify-content : center;
 `;
 
 const StyledImg = styled.img`
@@ -150,9 +160,9 @@ function sendPost (e, textContent, imageContent, setError)
   e.preventDefault();
   e.stopPropagation();
 
-  if(textContent === "")
+  if(textContent === "" && imageContent ==="")
   {
-    alert("Erreur : post vide. Veuillez indiquer un texte.");
+    alert("Erreur : post vide. Veuillez indiquer un texte ou une image.");
   } else {
     const dateTimeValue = concatenateDateTime();
     const userIdValue = getUserIdToken().userId;
@@ -204,12 +214,14 @@ function Createpost ()
     };
 
     return (
-        <StyledForm>
-          <ImageOptionWrapper>
+        <StyledForm id="formCreatePost">
+          <ImageOptionWrapper id="imageOptionWrapperCreatePost">
             <input type="file" id="inputImage" accept=".jpg, .jpeg, .png" onChange={(e) => previewImage(e.target.files[0], setImage)} />
-            <input type="button" value="Annuler fichier" onClick={(e) => cancelImage(e, setImage)} />
+            <input type="button" id="imageOptionWrapperCreatePostInput" value="Annuler fichier" onClick={(e) => cancelImage(e, setImage)} />
           </ImageOptionWrapper>
-          <StyledImg src="" alt="Preview post image" id="previewImage" width ="200px" />
+          <StyledImageWrapper>
+            <StyledImg src="" alt="Preview post image" id="previewImage" width ="200px" />
+          </StyledImageWrapper>
           <textarea name="addpost" rows="3" placeholder="Plaît-il ?" onChange={(e) => setText(e.target.value)}></textarea>
           <input type="submit" value="Publier" onClick={(e) => sendPost(e, textContent, imageContent, setError)} />
         </StyledForm>

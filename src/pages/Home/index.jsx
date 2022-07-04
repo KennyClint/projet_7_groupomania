@@ -1,10 +1,10 @@
 import Headerhome from "../../components/Headerhome";
-import { useState } from "react";
 import styled from "styled-components";
 import { useFetchGet } from "../../utils/hooks";
 import { Loader } from "../../utils/style/Atoms";
 import CreatePost from "../../components/CreatePost"
 import Card from "../../components/Card"
+import "../../utils/style/responsive/Home.css"
 
 const StyledBody = styled.div`
 display : flex;
@@ -25,7 +25,6 @@ justify-content : center;
 const PostsContainer = styled.div`
 display : flex;
 flex-direction : column;
-width : 40em;
 `;
 
 function Home() 
@@ -42,18 +41,18 @@ function Home()
   };
 
   return (
-    <div>
+    <div id="pageHome">
       <Headerhome />
       <StyledBody>
         <CreatePost />
-        <StyledRecentPosts>
+        <StyledRecentPosts id="recentPostsHome">
           {isLoading ?
           (
             <LoadedWrapper>
               <Loader />
             </LoadedWrapper>
           ) : (
-            <PostsContainer>
+            <PostsContainer id="postContainerHome">
               {descendingPostsList?.map((post) =>(
                 <Card key={post._id}
                   id = {post._id}

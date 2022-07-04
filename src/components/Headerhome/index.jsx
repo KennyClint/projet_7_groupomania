@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/icon-left-font.png";
-
-const HeaderLogo = styled.img`
-width : 430px;
-height : 70px;
-object-fit : cover;
-object-position : -55px;
-`;
+import "../../utils/style/responsive/Headerhome.css"
 
 const NavContainer = styled.nav`
 display : flex;
@@ -21,6 +15,19 @@ padding-right : 2em;
 font-size : 1.1em;
 `;
 
+const LogoLink = styled(Link)`
+width : 345px;
+height : 70px;
+overflow : hidden;
+`;
+
+const HeaderLogo = styled.img`
+width : 430px;
+height : 70px;
+object-fit : cover;
+object-position : -55px;
+`;
+
 const StyledLink = styled(Link)`
 text-transform : uppercase;
 `;
@@ -28,8 +35,8 @@ text-transform : uppercase;
 function Headerhome ()
 {
     return (
-        <NavContainer>
-            <Link to="/home"><HeaderLogo src={logo} alt="Logo de groupomania" /></Link>
+        <NavContainer id="navContainerHome">
+            <LogoLink to="/home"><HeaderLogo src={logo} alt="Logo de groupomania" /></LogoLink>
             <StyledLink to="/">Déconnexion</StyledLink>
         </NavContainer>
     )

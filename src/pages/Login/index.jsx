@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Headerlogin from "../../components/Headerlogin";
 import { useState } from "react";
-import { Loader } from "../../utils/style/Atoms";
+import "../../utils/style/responsive/Login.css";
 
 const StyledBody = styled.div`
 display : flex;
@@ -89,11 +89,11 @@ function Login ()
     };
 
     return (
-        <div>
+        <div id="bodyLogin">
             <Headerlogin />
             <StyledBody>
                 <h1>Connexion</h1>
-                <StyledForm>
+                <StyledForm id="styledForm">
                     <PositionForm>
                         <label for="email">Email</label>
                         <input type="email" id="email" required onChange={(e) => setEmailValue(e.target.value)} />

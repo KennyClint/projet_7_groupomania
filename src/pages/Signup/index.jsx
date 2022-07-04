@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Headerlogin from "../../components/Headerlogin";
 import { useState } from "react";
+import "../../utils/style/responsive/Signup.css"
 
 const StyledBody = styled.div`
 display : flex;
@@ -93,11 +94,11 @@ function Signup ()
     };
 
     return (
-        <div>
+        <div id="bodyLogin">
             <Headerlogin />
             <StyledBody>
                 <h1>Créer un compte</h1>
-                <StyledForm>
+                <StyledForm id="styledForm">
                     <PositionForm>
                         <label for="email">Email</label>
                         <input type="email" id="email" required onChange={(e) => setEmailValue(e.target.value)} />
