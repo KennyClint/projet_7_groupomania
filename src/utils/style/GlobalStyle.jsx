@@ -4,8 +4,7 @@ import colors from "./colors.js";
 
 const StyledGlobalStyle = createGlobalStyle`
 #root {
-    margin-right : 7em;
-    margin-left : 7em;
+    margin : auto;
 }
 
 * {
