@@ -216,13 +216,13 @@ function Createpost ()
     return (
         <StyledForm id="formCreatePost">
           <ImageOptionWrapper id="imageOptionWrapperCreatePost">
-            <input type="file" id="inputImage" accept=".jpg, .jpeg, .png" onChange={(e) => previewImage(e.target.files[0], setImage)} />
+            <input type="file" id="inputImage" accept=".jpg, .jpeg, .png" aria-label="Intégrer une image à votre post" onChange={(e) => previewImage(e.target.files[0], setImage)} />
             <input type="button" id="imageOptionWrapperCreatePostInput" value="Annuler fichier" onClick={(e) => cancelImage(e, setImage)} />
           </ImageOptionWrapper>
           <StyledImageWrapper>
             <StyledImg src="" alt="Preview post image" id="previewImage" width ="200px" />
           </StyledImageWrapper>
-          <textarea name="addpost" rows="3" placeholder="Plaît-il ?" onChange={(e) => setText(e.target.value)}></textarea>
+          <textarea name="addpost" aria-label="Indiquer le texte du post" rows="3" placeholder="Plaît-il ?" onChange={(e) => setText(e.target.value)}></textarea>
           <input type="submit" value="Publier" onClick={(e) => sendPost(e, textContent, imageContent, setError)} />
         </StyledForm>
     )

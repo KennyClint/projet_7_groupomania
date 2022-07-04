@@ -22,7 +22,7 @@ padding-right : 2em;
 }
 `;
 
-const LogoLink = styled(Link)`
+const LogoWrapper = styled.div`
 width : 345px;
 height : 70px;
 overflow : hidden;
@@ -43,7 +43,7 @@ function Headerlogin ()
 {
     return (
         <NavContainer className="navContainer" >
-            <LogoLink to="/"><HeaderLogo src={logo} alt="Logo de groupomania" /></LogoLink>
+            <LogoWrapper><HeaderLogo src={logo} alt="Logo de groupomania" /></LogoWrapper>
             <div>
             <StyledLink to="/">Connexion</StyledLink>
             <StyledLink to="/signup">S'inscrire</StyledLink>

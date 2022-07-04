@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import colors from "../../utils/style/colors"
 import "../../utils/style/responsive/Card.css";
 
 const CardWrapper = styled.div`
@@ -17,7 +18,7 @@ margin : 0.4em 0.4em 0 0.4em;
 
 const Email = styled.span`
 font-weight : bold;
-color : #FD2D01;
+color : ${colors.primary};
 `;
 
 const Date = styled.span`
@@ -52,7 +53,7 @@ const LikesContainer = styled.div`
 display : flex;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled.a`
 cursor : pointer;
 margin-right : 0.4em;
 `;
@@ -200,6 +201,18 @@ function verificationUserLikedPost(localUserId, usersLiked)
   }
 
   return userLikedPost;
+};
+
+function ariaLabelTextUserLikedPost(userLikedPost)
+{
+  let ariaLabelText = "Retirer le j'aime au post";
+
+  if(!userLikedPost)
+  {
+    ariaLabelText = "Ajouter un j'aime au post";
+  };
+
+  return ariaLabelText;
 };
 
 /*Fonction : Liker le post*/
@@ -490,7 +503,9 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
   const localUserIdToken = getUserIdToken();
   const localUserId = localUserIdToken.userId;
 
-  const userLikedPost = verificationUserLikedPost(localUserId, usersLiked)
+  const userLikedPost = verificationUserLikedPost(localUserId, usersLiked);
+
+  const ariaLabelLikePostText = ariaLabelTextUserLikedPost(userLikedPost);
 
   if (error) {
     setError(false);
@@ -514,11 +529,11 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
             </TextWrapper>
             <Footer>
               <LikesContainer>
-                <IconContainer onClick={(e) => postLikes(e, id, userLikedPost)}>
+                <IconContainer aria-label={ariaLabelLikePostText} href="#" onClick={(e) => postLikes(e, id, userLikedPost)}>
                 {userLikedPost ? (
-                  <FontAwesomeIcon icon={faHeart} />
+                  <FontAwesomeIcon icon={faHeart} aria-label="Retirer le j'aime au post" />
                 ) : (
-                  <FontAwesomeIcon icon={faHeartRegular} />
+                  <FontAwesomeIcon icon={faHeartRegular} aria-label="Ajouter un j'aime au post" />
                 )}
                 </IconContainer>
                 <span>{likes}</span>
@@ -534,7 +549,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
           <StyledForm id={id}>
             <HeaderForm className="headerFormCard">
               <ImageOptionWrapper className="imageOptionWrapperCard">
-                <input type="file" id={`inputImageModify${id}`} accept=".jpg, .jpeg, .png" onChange={(e) => previewImage(e.target.files[0], setImage, id)} />
+                <input type="file" id={`inputImageModify${id}`} accept=".jpg, .jpeg, .png" aria-label="Intégrer une image à votre post" onChange={(e) => previewImage(e.target.files[0], setImage, id)} />
                 <input type="button" value="Annuler fichier" onClick={(e) => cancelImage(e, setImage, id)} />
               </ImageOptionWrapper>
               <CheckboxWrapper id={`checkboxWrapper${id}`}>
@@ -545,7 +560,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
             <StyledImgWrapper>
               <StyledImg src="" alt="Preview post image" id={`previewImageModify${id}`} width ="200px" />
             </StyledImgWrapper>
-            <textarea name="addpost" defaultValue={text} rows="3" placeholder="Plaît-il ?" required onChange={(e) => setText(e.target.value)}></textarea>
+            <textarea name="addpost" aria-label="Indiquer le texte du post" defaultValue={text} rows="3" placeholder="Plaît-il ?" required onChange={(e) => setText(e.target.value)}></textarea>
             <FooterForm>
               <CancelButton type ="button" value="Annuler" onClick={(e) => cancelModif(e, id, text, textContent)} />
               <input type="submit" value="Valider" onClick={(e) => sendPost(e, id, textContent, imageContent, text, imageUrl, setError)} />
