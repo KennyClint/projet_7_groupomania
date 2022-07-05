@@ -52,7 +52,6 @@ exports.login = function(req, res, next)
 				{
 					if(user.admin)
 					{
-						console.log("controllers, ligne 55")
 						res.status(200).json({
 							userIdToken : { 
 								userId : user._id,
