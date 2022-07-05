@@ -23,4 +23,9 @@
     {
         width : 22em;
     }  
+
+    h1
+    {
+        text-align : center;
+    }
 }
