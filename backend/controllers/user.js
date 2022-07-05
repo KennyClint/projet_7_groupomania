@@ -66,7 +66,6 @@ exports.login = function(req, res, next)
 							email : user.email
 						});
 					} else {
-						console.log("controllers, ligne 69")
 						res.status(200).json({
 							userIdToken : { 
 								userId : user._id,
