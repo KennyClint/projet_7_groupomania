@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import GlobalStyle from './utils/style/GlobalStyle';
+import NotFound from './components/NotFound';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,9 +16,8 @@ root.render(
         <Route index element={<Login />} />
         <Route path="/" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-      </Routes>
-      <Routes>
         <Route path="home" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   </React.StrictMode>
