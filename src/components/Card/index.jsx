@@ -216,7 +216,7 @@ function ariaLabelTextUserLikedPost(userLikedPost)
 };
 
 /*Fonction : Liker le post*/
-function postLikes(e, id, userLikedPost)
+function postLikes(e, id, userLikedPost, newModification, setNewModification)
 {
   e.preventDefault();
   e.stopPropagation();
@@ -224,8 +224,14 @@ function postLikes(e, id, userLikedPost)
   const localUserId = getUserIdToken().userId;
   const token = getUserIdToken().token;
 
+  let newModificationValue = 1;
+  if(newModification === 1)
+  {
+    newModificationValue = 0;
+  };
+
   let likeValue = 1;
-  if (userLikedPost)
+  if(userLikedPost)
   { 
     likeValue = 0;
   };
@@ -256,16 +262,26 @@ function postLikes(e, id, userLikedPost)
   .catch(function(error)
   {
     console.log(error);
-  });
+  })
+  .finally(function()
+  {
+    setNewModification(newModificationValue);
+  }) 
 };
 
 /*Fonction : Suppression d'un post*/
-function deletePost(e, id)
+function deletePost(e, id, newModification, setNewModification)
 {
     e.preventDefault();
     e.stopPropagation();
 
     const confirmDelete = confirm("Souhaitez-vous vraiment supprimer ce post ?");
+
+    let newModificationValue = 1;
+    if(newModification === 1)
+    {
+      newModificationValue = 0;
+    };
 
     if (confirmDelete)
     {
@@ -291,7 +307,11 @@ function deletePost(e, id)
         .catch(function(error)
         {
             alert(`Une erreur c'est produite, le post n'a pu être supprimé. err : ${error}`)
-        });
+        })
+        .finally(function()
+        {
+          setNewModification(newModificationValue);
+        })
     } else {
         return;
     }
@@ -359,11 +379,17 @@ function cancelModif(e, id)
 };
 
 /*Fonction : Requête put de modification du texte et suppression de l'image existante*/
-function fetchDeleteImage (e, id, textContent, setError)
+function fetchDeleteImage (e, id, textContent, setError, newModification, setNewModification)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
   const localUserId = userIdToken.userId;
+
+  let newModificationValue = 1;
+  if(newModification === 1)
+  {
+    newModificationValue = 0;
+  };
 
   const dataPostNoImageUrl =
     {
@@ -391,15 +417,26 @@ function fetchDeleteImage (e, id, textContent, setError)
     .catch(function(error)
     {
       setError(true);
-    });
+    })
+    .finally(function()
+    {
+      hideModifyForm(e, id);
+      setNewModification(newModificationValue);
+    })
 };
 
 /*Fonction : Requête put de modification du texte et d'intégration d'une image */
-function fetchWithImage(e, id, textContent, imageContent, setError)
+function fetchWithImage(e, id, textContent, imageContent, setError, newModification, setNewModification)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
   const localUserId = userIdToken.userId;
+
+  let newModificationValue = 1;
+  if(newModification === 1)
+  {
+    newModificationValue = 0;
+  };
 
   const dataPost = 
   {
@@ -429,15 +466,26 @@ function fetchWithImage(e, id, textContent, imageContent, setError)
     .catch(function(error)
     {
       setError(true);
-    });
+    })
+    .finally(function()
+    {
+      hideModifyForm(e, id);
+      setNewModification(newModificationValue);
+    })
 };
 
 /*Fonction : Requête put de modification du texte*/
-function fetchWithoutImage (e, id, textContent, setError)
+function fetchWithoutImage (e, id, textContent, setError, newModification, setNewModification)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
   const localUserId = userIdToken.userId;
+
+  let newModificationValue = 1;
+    if(newModification === 1)
+    {
+      newModificationValue = 0;
+    };
 
   const dataPostNoImageUrl =
     {
@@ -464,11 +512,16 @@ function fetchWithoutImage (e, id, textContent, setError)
     .catch(function(error)
     {
       setError(true);
-    });
+    })
+    .finally(function()
+    {
+      hideModifyForm(e, id);
+      setNewModification(newModificationValue);
+    })
 };
 
 /*Fonction : Envoi les différentes données, générées ou récupérés pour enregistrer le post dans la BDD*/
-function sendPost (e, id, textContent, imageContent, text, imageUrl, setError)
+function sendPost (e, id, textContent, imageContent, text, imageUrl, setError, newModification, setNewModification)
 {
   e.preventDefault();
   e.stopPropagation();
@@ -484,20 +537,20 @@ function sendPost (e, id, textContent, imageContent, text, imageUrl, setError)
     } else {
       if (withoutImage.checked && imageUrl !== "")
       {
-        fetchDeleteImage(e, id, textContent, setError);
+        fetchDeleteImage(e, id, textContent, setError, newModification, setNewModification);
       } else { 
         if (imageContent !== "") 
         {
-          fetchWithImage(e, id, textContent, imageContent, setError);
+          fetchWithImage(e, id, textContent, imageContent, setError, newModification, setNewModification);
         } else {
-          fetchWithoutImage(e, id, textContent, setError)
+          fetchWithoutImage(e, id, textContent, setError, newModification, setNewModification)
         }
       }
     }
   }
 };
 
-function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked })
+function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked, newModification, setNewModification })
 {
   const [textContent, setText] = useState(text);
   const [imageContent, setImage] = useState("");
@@ -533,7 +586,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
             </TextWrapper>
             <Footer>
               <LikesContainer>
-                <IconContainer aria-label={ariaLabelLikePostText} href="#" onClick={(e) => postLikes(e, id, userLikedPost)}>
+                <IconContainer aria-label={ariaLabelLikePostText} href="#" onClick={(e) => postLikes(e, id, userLikedPost, newModification, setNewModification)}>
                 {userLikedPost ? (
                   <FontAwesomeIcon icon={faHeart} aria-label="Retirer le j'aime au post" />
                 ) : (
@@ -545,7 +598,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
               {(userId === localUserId || localUserIdToken.admin) && (
                 <ButtonWrapper>
                   <ModifyButton type="button" value="Modifier" onClick={(e) => displayModifyForm(e, id)} />
-                  <DeleteButton type="button" value="Supprimer" onClick={(e) => deletePost(e, id)}/>
+                  <DeleteButton type="button" value="Supprimer" onClick={(e) => deletePost(e, id, newModification, setNewModification)}/>
                 </ButtonWrapper>
               )} 
             </Footer>
@@ -567,7 +620,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked }
             <textarea name="addpost" aria-label="Indiquer le texte du post" defaultValue={text} rows="3" placeholder="Plaît-il ?" required onChange={(e) => setText(e.target.value)}></textarea>
             <FooterForm>
               <CancelButton type ="button" value="Annuler" onClick={(e) => cancelModif(e, id, text, textContent)} />
-              <input type="submit" value="Valider" onClick={(e) => sendPost(e, id, textContent, imageContent, text, imageUrl, setError)} />
+              <input type="submit" value="Valider" onClick={(e) => sendPost(e, id, textContent, imageContent, text, imageUrl, setError, newModification, setNewModification)} />
             </FooterForm>
           </StyledForm>
       </div>

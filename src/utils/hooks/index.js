@@ -9,7 +9,7 @@ function getUserIdToken()
   return userIdToken;
 };
 
-export function useFetchGet(url)
+export function useFetchGet(url, newModification)
 {
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
@@ -19,25 +19,32 @@ export function useFetchGet(url)
         const userIdToken = getUserIdToken();
         const token = userIdToken.token;
         const localUserId = userIdToken.userId
-        async function fetchData(url, token) {
-            try {
-                const response = await fetch(url,
-                {
-                    headers : {
-                        "Authorization" : `Bearer ${token} ${localUserId}`
-                    }
-                })
-                const data = await response.json()
-                setData(data)
-            } catch (err) {
-                console.log(err)
-                setError(true)
-            } finally {
-                setLoading(false)
+        
+        fetch(url,
+        {
+            headers : {
+                "Authorization" : `Bearer ${token} ${localUserId}`
             }
-          };
-          fetchData(url, token);
-    }, [url])
+        })
+        .then(function(res)
+        {
+            if(res.ok)
+            {
+                return res.json()
+                .then(function(data)
+                {
+                    setData(data)
+                })
+            };
+        })
+        .catch(function(error)
+        {
+            setError(true)
+        }).finally(function()
+        {
+            setLoading(false)
+        })
+    }, [url, newModification])
 
     return { isLoading, data, error };
 };

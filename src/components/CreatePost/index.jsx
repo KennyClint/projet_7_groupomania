@@ -77,8 +77,25 @@ function getUserIdToken()
   return userIdToken;
 };
 
+function cancelText(setText)
+{
+  setText("");
+  document.getElementById("testAreaAddPost").value = "";
+};
+
+/*Fonction : Permet de re-render la page home avec les nouvelles données*/
+function setterNewModification (newModification, setNewModification)
+{
+  let newModificationValue = 1;
+  if(newModification === 1)
+  {
+    newModificationValue = 0;
+  };
+  setNewModification(newModificationValue);
+};
+
 /*Fonction : Requête Post avec image*/
-function fetchWithImage (dateTimeValue, userIdValue, emailValue, textContent, imageContent, setError)
+function fetchWithImage (e, setText, setImage, dateTimeValue, userIdValue, emailValue, textContent, imageContent, setError, newModification, setNewModification)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
@@ -108,18 +125,23 @@ function fetchWithImage (dateTimeValue, userIdValue, emailValue, textContent, im
     {
         if(res.ok) 
         {
-          console.log("res.ok");
           return res.json();
         }; 
     })
     .catch(function(error)
     {
       setError(true);
-    });
+    })
+    .finally(function()
+    {
+      cancelImage(e, setImage)
+      cancelText(setText)
+      setterNewModification(newModification, setNewModification);
+    })
 };
 
 /*Fonction : Requête Post sans image*/
-function fetchWithoutImage (dateTimeValue, userIdValue, emailValue, textContent, setError)
+function fetchWithoutImage (e, setText, dateTimeValue, userIdValue, emailValue, textContent, setError, newModification, setNewModification)
 {
   const userIdToken = getUserIdToken();
   const token = userIdToken.token;
@@ -153,11 +175,16 @@ function fetchWithoutImage (dateTimeValue, userIdValue, emailValue, textContent,
     .catch(function(error)
     {
       setError(true);
-    });
+    })
+    .finally(function()
+    {
+      cancelText(setText)
+      setterNewModification(newModification, setNewModification);
+    })
 };
 
 /*Fonction : Envoi les différentes données, générées ou récupérés pour enregistrer le post dans la BDD*/
-function sendPost (e, textContent, imageContent, setError)
+function sendPost (e, textContent, imageContent, setError, newModification, setNewModification, setText, setImage)
 {
   e.preventDefault();
   e.stopPropagation();
@@ -172,9 +199,9 @@ function sendPost (e, textContent, imageContent, setError)
 
     if (imageContent !== "")
     {
-      fetchWithImage(dateTimeValue, userIdValue, emailValue, textContent, imageContent, setError);
+      fetchWithImage(e, setText, setImage, dateTimeValue, userIdValue, emailValue, textContent, imageContent, setError, newModification, setNewModification);
     } else {
-      fetchWithoutImage (dateTimeValue, userIdValue, emailValue, textContent, setError);
+      fetchWithoutImage (e, setText, dateTimeValue, userIdValue, emailValue, textContent, setError, newModification, setNewModification);
     }
   }  
 };
@@ -204,7 +231,7 @@ function cancelImage(e, setImage)
   previewImage.style.display = "none";
 };
 
-function Createpost ()
+function Createpost ({ newModification, setNewModification })
 {
     const [textContent, setText] = useState("");
     const [imageContent, setImage] = useState("");
@@ -224,8 +251,8 @@ function Createpost ()
           <StyledImageWrapper>
             <StyledImg src="" alt="Preview post image" id="previewImage" width ="200px" />
           </StyledImageWrapper>
-          <textarea name="addpost" aria-label="Indiquer le texte du post" rows="3" placeholder="Plaît-il ?" onChange={(e) => setText(e.target.value)}></textarea>
-          <input type="submit" value="Publier" onClick={(e) => sendPost(e, textContent, imageContent, setError)} />
+          <textarea name="addpost" aria-label="Indiquer le texte du post" id="testAreaAddPost" rows="3" placeholder="Plaît-il ?" onChange={(e) => setText(e.target.value)}></textarea>
+          <input type="submit" value="Publier" onClick={(e) => sendPost(e, textContent, imageContent, setError, newModification, setNewModification, setText, setImage)} />
         </StyledForm>
     )
 };

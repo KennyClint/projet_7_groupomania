@@ -5,6 +5,7 @@ import { Loader } from "../../utils/style/Atoms";
 import CreatePost from "../../components/CreatePost"
 import Card from "../../components/Card"
 import "../../utils/style/responsive/Home.css"
+import { useState } from "react";
 
 const StyledBody = styled.div`
 display : flex;
@@ -15,6 +16,7 @@ margin-top : 1em;
 
 const StyledRecentPosts = styled.div`
 margin : auto;
+margin-top : 1.5em;
 `;
 
 const LoadedWrapper = styled.div`
@@ -29,7 +31,8 @@ flex-direction : column;
 
 function Home() 
 {
-  const { isLoading, data, error } = useFetchGet("http://localhost:4200/api/posts");
+  const [newModification, setNewModification] = useState(0);
+  const { isLoading, data, error } = useFetchGet("http://localhost:4200/api/posts", newModification);
   const descendingPostsList = data;
   descendingPostsList?.sort((a, b) => b.dateTime - a.dateTime);
 
@@ -43,7 +46,10 @@ function Home()
       <Headerhome />
       <StyledBody>
         <h1>File d'actualité de Groupomania</h1>
-        <CreatePost />
+        <CreatePost 
+        newModification={newModification}
+        setNewModification={setNewModification}
+        />
         <StyledRecentPosts id="recentPostsHome">
           {isLoading ?
           (
@@ -62,6 +68,8 @@ function Home()
                   imageUrl={post.imageUrl}
                   likes={post.likes}
                   usersLiked={post.usersLiked}
+                  newModification={newModification}
+                  setNewModification={setNewModification}
                   />
               ))}
             </PostsContainer>
