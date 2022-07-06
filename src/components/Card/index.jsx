@@ -205,6 +205,7 @@ function verificationUserLikedPost(localUserId, usersLiked)
   return userLikedPost;
 };
 
+/*Fonction : Modifie le texte de l'aria-label suivant si la personne à liker ou non un post*/
 function ariaLabelTextUserLikedPost(userLikedPost)
 {
   let ariaLabelText = "Retirer le j'aime au post";
@@ -319,12 +320,14 @@ function deletePost(e, id, newModification, setNewModification)
     }
 };
 
+/*Fonction : Décoche automatiquement une checkbox*/
 function uncheckCheckbox (id)
 {
   const checkbox =  document.getElementById(`withoutImage${id}`);
   checkbox.checked = false;
 };
 
+/*Fonction : Masque une checkbox et son label*/
 function hideCheckboxWrapper(id)
 {
   uncheckCheckbox(id);
@@ -332,12 +335,14 @@ function hideCheckboxWrapper(id)
   checkboxWrapper.style.display = "none";
 };
 
+/*Fonction : Affiche une checkbox et son label*/
 function displayCheckboxWrapper(id)
 {
   const checkboxWrapper = document.getElementById(`checkboxWrapper${id}`);
   checkboxWrapper.style.display = "flex";
 };
 
+/*Fonction : Prévisualisation de l'image de modification du post*/
 function previewImage(file, setImage, id)
 {
   setImage(file);
@@ -353,6 +358,7 @@ function previewImage(file, setImage, id)
   hideCheckboxWrapper(id);
 };
 
+/*Fonction : Annule l'importation de l'image et masque le bloc de prévisualisation*/
 function cancelImage(e, setImage, id)
 {
   e.preventDefault();

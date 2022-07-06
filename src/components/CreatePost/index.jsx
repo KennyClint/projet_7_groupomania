@@ -206,6 +206,7 @@ function sendPost (e, textContent, imageContent, setError, newModification, setN
   }  
 };
 
+/*Fonction : Prévisualisation de l'image*/
 function previewImage(file, setImage)
 {
   setImage(file);
@@ -219,6 +220,7 @@ function previewImage(file, setImage)
   reader.readAsDataURL(file);
 };
 
+/*Fonction : Annule l'importation de l'image et masque la prévisualisation de l'image*/
 function cancelImage(e, setImage)
 {
   e.preventDefault();

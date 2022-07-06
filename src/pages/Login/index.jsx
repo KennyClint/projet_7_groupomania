@@ -32,6 +32,7 @@ flex-direction : column;
 }
 `;
 
+/*Fonction : Envoi des données de connexion*/
 function sendData(e, emailValue, passwordValue, setError, setResponse)
 {
     e.preventDefault();

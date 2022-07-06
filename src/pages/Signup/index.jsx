@@ -32,6 +32,7 @@ flex-direction : column;
 }
 `;
 
+/*Fonction : Envoi des données pour la création d'un compte*/
 function sendData (e, emailValue, passwordValue, setError, regexEmail)
 {
     e.preventDefault();

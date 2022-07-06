@@ -9,6 +9,7 @@ function getUserIdToken()
   return userIdToken;
 };
 
+/*Fonction : Permet l'envoie d'une requête GET*/
 export function useFetchGet(url, newModification)
 {
     const [data, setData] = useState([]);
