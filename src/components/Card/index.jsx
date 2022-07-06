@@ -596,9 +596,9 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked, 
               <LikesContainer>
                 <IconContainer aria-label={ariaLabelLikePostText} href="#" onClick={(e) => postLikes(e, id, userLikedPost, newModification, setNewModification)}>
                 {userLikedPost ? (
-                  <FontAwesomeIcon icon={faHeart} aria-label="Retirer le j'aime au post" />
+                  <FontAwesomeIcon icon={faHeart} aria-label={ariaLabelLikePostText} />
                 ) : (
-                  <FontAwesomeIcon icon={faHeartRegular} aria-label="Ajouter un j'aime au post" />
+                  <FontAwesomeIcon icon={faHeartRegular} aria-label={ariaLabelLikePostText} />
                 )}
                 </IconContainer>
                 <span>{likes}</span>
@@ -619,7 +619,7 @@ function Card({ id, email, userId, text, dateTime, imageUrl, likes, usersLiked, 
               </ImageOptionWrapper>
               <CheckboxWrapper id={`checkboxWrapper${id}`}>
                 <input type="checkbox" id={`withoutImage${id}`} />
-                <label for={`withoutImage${id}`}>Post sans image</label>
+                <label htmlFor={`withoutImage${id}`}>Post sans image</label>
               </CheckboxWrapper>
             </HeaderForm>
             <StyledImgWrapper>
