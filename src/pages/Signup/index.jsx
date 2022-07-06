@@ -33,7 +33,7 @@ flex-direction : column;
 `;
 
 /*Fonction : Envoi des données pour la création d'un compte*/
-function sendData (e, emailValue, passwordValue, setError, regexEmail)
+function sendData (e, emailValue, passwordValue, setError, regexEmail, setResponse)
 {
     e.preventDefault();
     e.stopPropagation();
@@ -61,22 +61,22 @@ function sendData (e, emailValue, passwordValue, setError, regexEmail)
             })
             .then(function(res)
             {
-                if(res.ok) 
-                {
-                    return res.json();
-                }; 
+                return res.json();
             })
             .then(function(data)
             {
-                const userIdTokenStringify = JSON.stringify(data.userIdToken);
-                localStorage.setItem("userIdToken", userIdTokenStringify);
-                localStorage.setItem("email", data.email);
-                document.location.href = "http://localhost:3000/home";
-            })
-            .catch(function(err)
-            {
-                console.log(err);
-                setError(true);    
+                if(data.error)
+                {
+                    setResponse(data.error.message)
+                    setError(true); 
+                    return;
+                } else if(data.userIdToken)
+                {
+                    const userIdTokenStringify = JSON.stringify(data.userIdToken);
+                    localStorage.setItem("userIdToken", userIdTokenStringify);
+                    localStorage.setItem("email", data.email);
+                    document.location.href = "http://localhost:3000/home";
+                }   
             }
         );
     };
@@ -88,12 +88,13 @@ function Signup ()
     const [emailValue, setEmailValue] = useState("");
     const [passwordValue, setPassword] = useState("");
     const [error, setError] = useState(false);
+    const [response, setResponse] = useState("");
 
     const regexEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/;
 
     if (error) {
         setError(false);
-        alert("Email ou Mot de passe incorrect");
+        alert(response);
     };
 
     return (
@@ -108,7 +109,7 @@ function Signup ()
                         <label htmlFor="password">Mot de passe</label>
                         <input type="password" id="password" required onChange={(e) => setPassword(e.target.value)} />
                     </PositionForm>
-                    <input type="submit" value="S'inscrire" onClick={(e) => sendData(e, emailValue, passwordValue, setError, regexEmail)} />
+                    <input type="submit" value="S'inscrire" onClick={(e) => sendData(e, emailValue, passwordValue, setError, regexEmail, setResponse)} />
                 </StyledForm>
             </StyledBody>
         </div>
