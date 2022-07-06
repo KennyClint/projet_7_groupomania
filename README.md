@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Sommaire
+## 1. Informations générales
+## 2. Technologies
+## 3. Installation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
+## 1. Informations générales
+Ce projet est la toute première version d'un projet de réseau social d'entreprise du groupe "Groupomania". Cette première version sera à faire tester par quelques employés de Groupomania pour valider la partie fonctionnelle. Actuellement, cette première version est terminée et est en attente de validation.
+Le projet est composé de deux parties. La première partie est le front-end et la seconde partie est l'API, cette dernière se trouvant dans le dossier "backend".
 
-## Available Scripts
+---
+## 2. Technologies
+Liste des différentes technologies utilisé dans la partie "frontend" du projet :
+* "@fortawesome/fontawesome-svg-core": "^6.1.1"
+* "@fortawesome/free-regular-svg-icons": "^6.1.1"
+* "@fortawesome/free-solid-svg-icons": "^6.1.1"
+* "@fortawesome/react-fontawesome": "^0.2.0"
+* "@testing-library/jest-dom": "^5.16.4"
+* "@testing-library/react": "^13.3.0"
+* "@testing-library/user-event": "^13.5.0"
+* "prop-types": "^15.8.1"
+* "react": "^18.2.0"
+* "react-dom": "^18.2.0"
+* "react-router-dom": "^6.3.0"
+* "react-scripts": "5.0.1"
+* "styled-components": "^5.3.5"
+* "web-vitals": "^2.1.4"
 
-In the project directory, you can run:
+Liste des différentes technologies utilisé la création de l'API du projet :
+* "express": "^4.18.1"
+* "bcrypt": "^5.0.1"
+* "dotenv": "^16.0.1"
+* "jsonwebtoken": "^8.5.1"
+* "mongoose": "^6.4.0"
+* Base de de données : mongoDB
+* "mongoose-unique-validator": "^3.1.0"
+* "multer": "^1.4.5-lts.1"
 
-### `npm start`
+---
+## 3. Installation
+$ git clone https://github.com/KennyClint/projet_7_groupomania.git
+$ cd projet_7_groupomania
+$ npm install
+$ npm start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Puis ouvrir un deuxième terminal de commande dans le dossier "backend" :
+$ npm install
+$ npm start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Dans le dossier "backend" renomer le fichier ".env.example" en ".env" et à l'intérieur compléter les données manquantes.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Le ".env" du dossier racine, comporte le port des urls utilisés pour les liens. 
+Le ".env" du dossier "backend", comporte l'url avec les identifiants vers la base de données.
