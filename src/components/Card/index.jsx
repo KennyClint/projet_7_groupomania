@@ -14,6 +14,7 @@ const Header = styled.div`
 display : flex;
 justify-content : space-between;
 margin : 0.4em 0.4em 0 0.4em;
+border-bottom : 1px solid lightgray;
 `;
 
 const Email = styled.span`
@@ -47,6 +48,7 @@ const Footer = styled.div`
 display : flex;
 justify-content : space-between;
 margin : 0.4em;
+border-top : 1px solid lightgray;
 `;
 
 const LikesContainer = styled.div`
@@ -59,7 +61,7 @@ margin-right : 0.4em;
 `;
 
 const ButtonWrapper = styled.div`
-
+margin-top : 0.4em;
 `;
 
 const ModifyButton = styled.input`
@@ -74,8 +76,8 @@ const StyledForm = styled.div`
 display : none;
 flex-direction : column;
 margin-bottom : 1em;
-border : 1px solid grey;
 padding : 0.4em 0 0.4em 0;
+border : 2px solid ${colors.primary};
 & input[type="file"]
 {
   margin-left : 0.4em;
