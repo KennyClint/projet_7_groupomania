@@ -32,49 +32,53 @@ flex-direction : column;
 }
 `;
 
-function sendData (e, emailValue, passwordValue, setError, setLoading, setResponse)
+function sendData (e, emailValue, passwordValue, setError, regexEmail)
 {
     e.preventDefault();
     e.stopPropagation();
-    setLoading(true);
-    const dataAccount = 
-    {
-        email : emailValue,
-        password : passwordValue
-    };
 
-    fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, 
+    const verificationEmail = regexEmail.test(emailValue);
+
+    if(!verificationEmail)
+    {
+        alert("Format de l'adresse email incorrect")
+    } else {
+        const dataAccount = 
         {
-            method : "POST",
-            headers : {
-                "Accept" : "application/json",
-                "Content-Type" : "application/json"
-            },
-            body : JSON.stringify(dataAccount)
-        })
-        .then(function(res)
-        {
-            if(res.ok) 
+            email : emailValue,
+            password : passwordValue
+        };
+
+        fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, 
             {
-                return res.json();
-            }; 
-        })
-        .then(function(data)
-        {
-            const userIdTokenStringify = JSON.stringify(data.userIdToken);
-            localStorage.setItem("userIdToken", userIdTokenStringify);
-            localStorage.setItem("email", data.email);
-            setLoading(false);
-            document.location.href = "http://localhost:3000/home";
-        })
-        .catch(function(err)
-        {
-            console.log(err);
-            setResponse(err)
-            setLoading(false);
-            setError(true);    
-        }
-    );
+                method : "POST",
+                headers : {
+                    "Accept" : "application/json",
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify(dataAccount)
+            })
+            .then(function(res)
+            {
+                if(res.ok) 
+                {
+                    return res.json();
+                }; 
+            })
+            .then(function(data)
+            {
+                const userIdTokenStringify = JSON.stringify(data.userIdToken);
+                localStorage.setItem("userIdToken", userIdTokenStringify);
+                localStorage.setItem("email", data.email);
+                document.location.href = "http://localhost:3000/home";
+            })
+            .catch(function(err)
+            {
+                console.log(err);
+                setError(true);    
+            }
+        );
+    };
 };
 
 
@@ -82,9 +86,9 @@ function Signup ()
 {
     const [emailValue, setEmailValue] = useState("");
     const [passwordValue, setPassword] = useState("");
-    const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [response, setResponse] = useState("");
+
+    const regexEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/;
 
     if (error) {
         setError(false);
@@ -103,7 +107,7 @@ function Signup ()
                         <label for="password">Mot de passe</label>
                         <input type="password" id="password" required onChange={(e) => setPassword(e.target.value)} />
                     </PositionForm>
-                    <input type="submit" value="S'inscrire" onClick={(e) => sendData(e, emailValue, passwordValue, setError, setLoading, setResponse)} />
+                    <input type="submit" value="S'inscrire" onClick={(e) => sendData(e, emailValue, passwordValue, setError, regexEmail)} />
                 </StyledForm>
             </StyledBody>
         </div>
