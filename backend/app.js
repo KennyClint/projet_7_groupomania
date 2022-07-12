@@ -5,12 +5,19 @@ const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
 require("dotenv").config();
 const path = require("path");
+const helmet = require("helmet");
 
 mongoose.connect(process.env.BDD_URL,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy : false
+  })
+);
 
 app.use(express.json());
 
