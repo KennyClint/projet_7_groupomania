@@ -46,4 +46,5 @@ Démarrer le projet (par défaut le projet sera lancé sur le port 4200) :
 Dans le dossier "backend" renomer le fichier ".env.example" en ".env" et à l'intérieur compléter les données manquantes.
 
 Le ".env" du dossier racine, comporte le port des urls utilisés pour les liens. 
+
 Le ".env" du dossier "backend", comporte l'url avec les identifiants vers la base de données et la clé de cryptage utilisé par "jsonwebtoken".
