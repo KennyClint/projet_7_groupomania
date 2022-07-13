@@ -24,18 +24,23 @@ Cloner le repository :
     $ git clone https://github.com/KennyClint/projet_7_groupomania.git
 
 Aller dans le dossier qui a été téléchargé :
+
     $ cd projet_7_groupomania
 
 Installer les librairies :
+
     $ npm install
 
 Démarrer le projet (par défaut le projet sera lancé sur le port 3000) :
+
     $ npm start
 
 Ouvrir un deuxième terminal de commande dans le dossier "backend", puis installer les librairies :
+
     $ npm install
 
 Démarrer le projet (par défaut le projet sera lancé sur le port 4200) :
+
     $ npm start
 
 Dans le dossier "backend" renomer le fichier ".env.example" en ".env" et à l'intérieur compléter les données manquantes.
