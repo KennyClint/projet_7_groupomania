@@ -20,6 +20,7 @@ Liste des différentes technologies utilisé pour la création du projet :
 ---
 ## 3. Installation
 Cloner le repository :
+
     $ git clone https://github.com/KennyClint/projet_7_groupomania.git
 
 Aller dans le dossier qui a été téléchargé :
