@@ -65,12 +65,18 @@ function sendData (e, emailValue, passwordValue, setError, regexEmail, setRespon
             })
             .then(function(data)
             {
-                if(data.error)
+                if(data.error.message)
                 {
                     setResponse(data.error.message)
                     setError(true); 
                     return;
-                } else if(data.userIdToken)
+                } else if(data.error)
+                {
+                    setResponse(data.error)
+                    setError(true); 
+                    return;
+                }
+                else if(data.userIdToken)
                 {
                     const userIdTokenStringify = JSON.stringify(data.userIdToken);
                     localStorage.setItem("userIdToken", userIdTokenStringify);
