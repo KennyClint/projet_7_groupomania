@@ -1,7 +1,8 @@
 # Sommaire
 ## 1. Informations générales
 ## 2. Technologies
-## 3. Installation
+## 3. Prérequis
+## 4. Installation
 
 ---
 ## 1. Informations générales
@@ -18,7 +19,13 @@ Liste des différentes technologies utilisé pour la création du projet :
 * mongoDB
 
 ---
-## 3. Installation
+## 3. Prérequis
+* NodeJs v16
+* Base de données mongoDB
+* Git
+
+---
+## 4. Installation
 Cloner le repository :
 
     $ git clone https://github.com/KennyClint/projet_7_groupomania.git
